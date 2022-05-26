@@ -35,3 +35,8 @@ export const getIgMediaById = async (mediaId: string, token: string) => {
     `${endpointBasePath}/${mediaId}?fields=id,ig_id,media_product_type,owner,media_url,timestamp,username,shortcode,like_count&access_token=${token}`
   );
 };
+
+export const getStoryInsightsService = (mediaId: string, token: string) =>
+  httpRequest.get(
+    `${endpointBasePath}/${mediaId}/insights?metric=exits,impressions,reach,replies,taps_forward,taps_back&access_token=${token}`
+  );

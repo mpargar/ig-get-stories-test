@@ -1,7 +1,14 @@
 import { IIgStory } from "../FacebookContext";
+import GetStoryInsights from "./GetStoryInsights";
 
 interface IStoryComponent extends IIgStory {}
-const Story = ({ media_url, timestamp, permalink, id }: IStoryComponent) => {
+const Story = ({
+  media_url,
+  timestamp,
+  permalink,
+  id,
+  ig_id,
+}: IStoryComponent) => {
   return (
     <div>
       <img
@@ -13,6 +20,7 @@ const Story = ({ media_url, timestamp, permalink, id }: IStoryComponent) => {
       />
       <ul>
         <li>id: {id}</li>
+        <li>ig_id: {ig_id}</li>
         <li>timestamp: {timestamp}</li>
         <li>
           <a href={permalink} target="_blank" rel="noreferrer">
@@ -20,6 +28,7 @@ const Story = ({ media_url, timestamp, permalink, id }: IStoryComponent) => {
           </a>
         </li>
       </ul>
+      <GetStoryInsights id={id} />
       <hr />
     </div>
   );
