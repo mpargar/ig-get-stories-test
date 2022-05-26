@@ -3,6 +3,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import FacebookSessionButton from "../context/Facebook/components/FacebookSessionButton";
 import InstagramStoriesButton from "../context/Facebook/components/InstagramStoriesButton";
+import Stories from "../context/Facebook/components/Stories";
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -18,6 +19,8 @@ const Home: NextPage = () => {
         <br />
         <br />
         <InstagramStoriesButton />
+        <br />
+        <Stories />
       </main>
       <footer></footer>
     </div>
