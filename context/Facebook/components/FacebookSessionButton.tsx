@@ -1,8 +1,8 @@
-import useLoginStatus from "../hooks/useLoginStatus";
+import useLogin from "../hooks/useLogin";
 import useUserData from "../hooks/useUserData";
 
 const FacebookSessionButton = () => {
-  const { isLoggedIn, setStatus } = useLoginStatus();
+  const { isLoggedIn, setStatus } = useLogin();
   const { fetchUserData } = useUserData();
   const handleLogout = () => {
     FB.logout((response) => {

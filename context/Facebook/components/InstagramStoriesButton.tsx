@@ -1,9 +1,9 @@
-import useLoginStatus from "../hooks/useLoginStatus";
+import useLogin from "../hooks/useLogin";
 import useStories from "../hooks/useStories";
 
 const InstagramStoriesButton = () => {
   const { fetchStories } = useStories();
-  const { isLoggedIn } = useLoginStatus();
+  const { isLoggedIn } = useLogin();
   const handleOnclick = async () => {
     await fetchStories();
   };

@@ -4,9 +4,11 @@ import FacebookProvider from "../context/Facebook/FacebookProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <FacebookProvider>
-      <Component {...pageProps} />
-    </FacebookProvider>
+    <>
+      <FacebookProvider>
+        <Component {...pageProps} />
+      </FacebookProvider>
+    </>
   );
 }
 

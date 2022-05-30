@@ -5,7 +5,7 @@ import StatusResponse = facebook.StatusResponse;
 import { useContext, useEffect } from "react";
 import FacebookContext from "../FacebookContext";
 
-const useLoginStatus = () => {
+const useLogin = () => {
   const [state, dispatch] = useContext(FacebookContext);
   const isLoggedIn = () => state?.statusResponse?.status === "connected";
   const setStatus = (status: StatusResponse) => {
@@ -25,4 +25,4 @@ const useLoginStatus = () => {
   return { getStatus, isLoggedIn, setStatus };
 };
 
-export default useLoginStatus;
+export default useLogin;
