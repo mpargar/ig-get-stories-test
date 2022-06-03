@@ -6,6 +6,9 @@ import FacebookContext, {
 } from "./FacebookContext";
 import facebookReducer from "./facebookReducer";
 import StatusResponse = facebook.StatusResponse;
+import { getFacebookUserDataService } from "../../services/facebookServices";
+import useUserData from "./hooks/useUserData";
+import LoadingPage from "../../components/LoadingPage/LoadingPage";
 
 interface IFacebookProvider {
   children: ReactNode;
@@ -17,13 +20,15 @@ const INITIAL_STATE: IFacebookContextState = {
   } as StatusResponse,
   accountsData: {} as IFacebookAccountData,
   instagramBussinessId: "",
-  stories: [],
 };
 
 const FacebookProvider = ({ children }: IFacebookProvider) => {
+  const [facebookState, dispatch] = useReducer(facebookReducer, INITIAL_STATE);
+  const { fetchUserData, fetchInstagramData } = useUserData();
   const [loaded, setLoaded] = useState(false);
   const handleOnLoad = () => {
-    window.fbAsyncInit = function () {
+    window.fbAsyncInit = async function () {
+      // Start app
       FB.init({
         appId: "1157734634795050",
         cookie: true,
@@ -31,10 +36,41 @@ const FacebookProvider = ({ children }: IFacebookProvider) => {
         version: "v13.0",
       });
       FB.AppEvents.logPageView();
+      // Get login status
+      await FB.getLoginStatus(async (response) => {
+        dispatch({
+          type: "setStatusResponse",
+          payload: response,
+        });
+        await getAccountData(response);
+      });
       setLoaded(true);
     };
   };
-  const [facebookState, dispatch] = useReducer(facebookReducer, INITIAL_STATE);
+  const getAccountData = async (status: StatusResponse) => {
+    if (status.status === "connected") {
+      const userData = await fetchUserData(status?.authResponse.accessToken);
+      if (!userData) {
+        // TODO: Send error message
+        return;
+      }
+      const igData = await fetchInstagramData(
+        userData.id,
+        status.authResponse.accessToken
+      );
+      if (!igData) {
+        // TODO: Send error message
+        return;
+      }
+      dispatch({
+        type: "setAccountData",
+        payload: {
+          accountsData: userData,
+          instagramBussinessId: igData,
+        },
+      });
+    }
+  };
   return (
     <>
       <Script
@@ -42,10 +78,12 @@ const FacebookProvider = ({ children }: IFacebookProvider) => {
         src="https://connect.facebook.net/en_US/sdk.js"
         onLoad={handleOnLoad}
       />
-      {loaded && (
+      {loaded ? (
         <FacebookContext.Provider value={[facebookState, dispatch]}>
           {children}
         </FacebookContext.Provider>
+      ) : (
+        <LoadingPage />
       )}
     </>
   );

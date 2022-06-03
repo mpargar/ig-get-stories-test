@@ -1,36 +1,29 @@
 import { useContext } from "react";
-import facebookContext from "../FacebookContext";
+import facebookContext, { IFacebookAccountData } from "../FacebookContext";
 import {
   getFacebookUserDataService,
   getInstagramAccountService,
 } from "../../../services/facebookServices";
 
 const useUserData = () => {
-  const [state, dispatch] = useContext(facebookContext);
-  const fetchUserData = async (token?: string) => {
-    if (!token) token = state.statusResponse.authResponse.accessToken;
+  const fetchUserData = async (token: string) => {
     const response = await getFacebookUserDataService(token);
     if (response.status === 200) {
-      dispatch({
-        type: "setAccountData",
-        payload: {
-          id: response?.data?.data?.[0]?.id,
-          name: response?.data?.data?.[0]?.name,
-        },
-      });
-      fetchInstagramData(response?.data?.data?.[0]?.id, token);
+      return {
+        id: response?.data?.data?.[0]?.id,
+        name: response?.data?.data?.[0]?.name,
+      };
     }
+    return null;
   };
   const fetchInstagramData = async (accountDataId: string, token: string) => {
     const response = await getInstagramAccountService(accountDataId, token);
     if (response.status === 200) {
-      dispatch({
-        type: "setInstagramBussinessId",
-        payload: response?.data?.instagram_business_account?.id,
-      });
+      return response?.data?.instagram_business_account?.id as string;
     }
+    return null;
   };
-  return { fetchUserData };
+  return { fetchUserData, fetchInstagramData };
 };
 
 export default useUserData;

@@ -1,8 +1,4 @@
-import {
-  IFacebookAccountData,
-  IFacebookContextState,
-  IIgStory,
-} from "./FacebookContext";
+import { IFacebookAccountData, IFacebookContextState } from "./FacebookContext";
 import StatusResponse = facebook.StatusResponse;
 
 export type TFacebookReducerAction =
@@ -12,15 +8,10 @@ export type TFacebookReducerAction =
     }
   | {
       type: "setAccountData";
-      payload: IFacebookAccountData;
-    }
-  | {
-      type: "setInstagramBussinessId";
-      payload: string;
-    }
-  | {
-      type: "setStories";
-      payload: IIgStory[];
+      payload: {
+        accountsData: IFacebookAccountData;
+        instagramBussinessId: string;
+      };
     };
 
 const facebookReducer = (
@@ -36,19 +27,8 @@ const facebookReducer = (
     case "setAccountData":
       return {
         ...state,
-        accountsData: action.payload,
+        ...action.payload,
       };
-    case "setInstagramBussinessId":
-      return {
-        ...state,
-        instagramBussinessId: action.payload,
-      };
-    case "setStories": {
-      return {
-        ...state,
-        stories: action.payload,
-      };
-    }
     default:
       return state;
   }

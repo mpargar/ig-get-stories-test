@@ -27,7 +27,6 @@ export interface IFacebookContextState {
   statusResponse: StatusResponse;
   accountsData?: IFacebookAccountData;
   instagramBussinessId: string;
-  stories: IIgStory[];
 }
 export type IFacebookContext = [
   IFacebookContextState,

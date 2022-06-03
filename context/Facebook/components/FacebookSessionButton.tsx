@@ -1,5 +1,6 @@
 import useLogin from "../hooks/useLogin";
 import useUserData from "../hooks/useUserData";
+import { Button } from "antd";
 
 const FacebookSessionButton = () => {
   const { isLoggedIn, setStatus } = useLogin();
@@ -38,9 +39,9 @@ const FacebookSessionButton = () => {
     );
   };
   return isLoggedIn() ? (
-    <button onClick={handleLogout}>Logout ❌</button>
+    <Button onClick={handleLogout}>Logout ❌</Button>
   ) : (
-    <button onClick={handleLogin}>Login ✅</button>
+    <Button onClick={handleLogin}>Login ✅</Button>
   );
 };
 
