@@ -4,7 +4,8 @@ import styles from "../styles/Home.module.css";
 import { useEffect } from "react";
 import useLogin from "../context/Facebook/hooks/useLogin";
 import Router from "next/router";
-const Home: NextPage = () => {
+import FacebookLoginButton from "../context/Facebook/components/FacebookLoginButton";
+const FacebookLogin: NextPage & { layout: string } = () => {
   const { isLoggedIn } = useLogin();
   useEffect(() => {
     if (isLoggedIn) {
@@ -19,9 +20,13 @@ const Home: NextPage = () => {
         <meta name="description" content="Ig insights login" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <main style={{ textAlign: "center" }}>
+        <FacebookLoginButton />
+      </main>
     </div>
   );
 };
 
-export default Home;
+FacebookLogin.layout = "UnAuthUserLayout";
+
+export default FacebookLogin;

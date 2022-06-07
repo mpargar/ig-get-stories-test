@@ -5,9 +5,11 @@ import FacebookProvider from "../context/Facebook/FacebookProvider";
 import AuthUserLayout from "../components/AuthUserLayout/AuthUserLayout";
 import { ReactNode } from "react";
 import { NextComponentType, NextPageContext } from "next";
+import UnAuthUserLayout from "../components/UnAuthUserLayout/UnAuthUserLayout";
 
 const layouts = {
   AuthUserLayout,
+  UnAuthUserLayout,
 };
 interface IMyAppProps extends AppProps {
   Component: NextComponentType<NextPageContext, any, {}> & {

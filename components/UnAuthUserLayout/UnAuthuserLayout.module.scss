@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+}
+.menu {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.content {
+  min-height: calc(100vh - 134px);
+  padding-top: 20px;
+}

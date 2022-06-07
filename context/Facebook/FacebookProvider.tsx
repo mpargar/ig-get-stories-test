@@ -9,6 +9,7 @@ import StatusResponse = facebook.StatusResponse;
 import { getFacebookUserDataService } from "../../services/facebookServices";
 import useUserData from "./hooks/useUserData";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
+import useLogin from "./hooks/useLogin";
 
 interface IFacebookProvider {
   children: ReactNode;
@@ -26,6 +27,7 @@ const FacebookProvider = ({ children }: IFacebookProvider) => {
   const [facebookState, dispatch] = useReducer(facebookReducer, INITIAL_STATE);
   const { fetchUserData, fetchInstagramData } = useUserData();
   const [loaded, setLoaded] = useState(false);
+  const { getAccountData } = useLogin();
   const handleOnLoad = () => {
     window.fbAsyncInit = async function () {
       // Start app
@@ -46,30 +48,6 @@ const FacebookProvider = ({ children }: IFacebookProvider) => {
       });
       setLoaded(true);
     };
-  };
-  const getAccountData = async (status: StatusResponse) => {
-    if (status.status === "connected") {
-      const userData = await fetchUserData(status?.authResponse.accessToken);
-      if (!userData) {
-        // TODO: Send error message
-        return;
-      }
-      const igData = await fetchInstagramData(
-        userData.id,
-        status.authResponse.accessToken
-      );
-      if (!igData) {
-        // TODO: Send error message
-        return;
-      }
-      dispatch({
-        type: "setAccountData",
-        payload: {
-          accountsData: userData,
-          instagramBussinessId: igData,
-        },
-      });
-    }
   };
   return (
     <>
