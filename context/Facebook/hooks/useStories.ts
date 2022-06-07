@@ -16,6 +16,7 @@ export interface IIgStory {
   ig_id: string;
   shortcode: string;
   permalink: string;
+  caption: string;
 }
 
 const useStories = () => {

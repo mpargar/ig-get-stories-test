@@ -1,18 +1,18 @@
-import useStories from "../hooks/useStories";
+import useStories from "../../hooks/useStories";
 import Story from "./Story";
 import { useContext, useEffect } from "react";
-import FacebookContext from "../FacebookContext";
+import FacebookContext from "../../FacebookContext";
+import styles from "./Story.module.scss";
 
 const Stories = () => {
   const [state] = useContext(FacebookContext);
   const { stories } = useStories();
   return (
-    <>
-      <h1>-{state.instagramBussinessId}-</h1>
+    <div className={styles.storyContainer}>
       {stories.map((story) => (
         <Story {...story} key={story.id} />
       ))}
-    </>
+    </div>
   );
 };
 

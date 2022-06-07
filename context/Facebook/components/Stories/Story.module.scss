@@ -1,0 +1,9 @@
+.storyContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  flex-wrap: wrap-reverse;
+  > div {
+    margin: 5px;
+  }
+}
