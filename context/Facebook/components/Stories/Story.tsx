@@ -1,7 +1,7 @@
-import GetStoryInsights from "../GetStoryInsights";
 import { IIgStory } from "../../hooks/useStories";
-import { Card, Tooltip } from "antd";
+import { Card, List, Modal, Spin, Tooltip } from "antd";
 import { BarChartOutlined, LinkOutlined } from "@ant-design/icons";
+import useStory from "../../hooks/useStory";
 
 interface IStoryComponent extends IIgStory {}
 
@@ -14,8 +14,29 @@ const Story = ({
   media_type,
   caption,
 }: IStoryComponent) => {
+  const { fetchInsight, loadingInsights } = useStory();
   const handleShowInsights = () => {
-    console.log("Show insights");
+    fetchInsight(id, {
+      onFetchSuccess: (insights) => {
+        Modal.info({
+          width: "100%",
+          title: "Insights",
+          content: (
+            <List
+              dataSource={insights}
+              renderItem={(storyInsight) => (
+                <List.Item>
+                  <List.Item.Meta
+                    title={`${storyInsight.title}: ${storyInsight.values?.[0]?.value}`}
+                    description={storyInsight.description}
+                  />
+                </List.Item>
+              )}
+            />
+          ),
+        });
+      },
+    });
   };
   const handleOpenLink = () => {
     window?.open(permalink, "_blank")?.focus();
@@ -34,9 +55,11 @@ const Story = ({
         )
       }
       actions={[
-        <Tooltip title="Insights" key={`insight-${ig_id}`}>
-          <BarChartOutlined onClick={handleShowInsights} />
-        </Tooltip>,
+        <Spin spinning={loadingInsights} key={`insight-${ig_id}`}>
+          <Tooltip title="Insights">
+            <BarChartOutlined onClick={handleShowInsights} />
+          </Tooltip>
+        </Spin>,
         <Tooltip title="Permalink" key={`link-${ig_id}`}>
           <LinkOutlined onClick={handleOpenLink} />
         </Tooltip>,

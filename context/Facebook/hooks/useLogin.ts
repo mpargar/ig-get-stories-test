@@ -76,7 +76,6 @@ const useLogin = () => {
     }
   };
   const logout = async () => {
-    //TODO: add promise...
     await FB.logout((response) => {
       if (response.status !== "connected") {
         dispatch({
