@@ -8,7 +8,6 @@ const Home: NextPage = () => {
   const { isLoggedIn } = useLogin();
   useEffect(() => {
     if (isLoggedIn) {
-      //TODO: Redirect to stories
       Router.push("/facebook-stories");
     }
   }, [isLoggedIn]);

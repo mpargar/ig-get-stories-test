@@ -1,24 +1,38 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import FacebookContext from "../FacebookContext";
 import { getIgStoriesService } from "../../../services/facebookServices";
 
+export interface IIgStory {
+  id: string;
+  username: string;
+  media_url: string;
+  media_type: string;
+  media_product_type: string;
+  comments_count: string;
+  timestamp: string;
+  owner: {
+    id: string;
+  };
+  ig_id: string;
+  shortcode: string;
+  permalink: string;
+}
+
 const useStories = () => {
-  const [state, dispatch] = useContext(FacebookContext);
+  const [state] = useContext(FacebookContext);
+  const [stories, setStories] = useState<IIgStory[]>([]);
   const fetchStories = async () => {
     const response = await getIgStoriesService(
       state.instagramBussinessId,
       state.statusResponse.authResponse.accessToken
     );
     if (response.status === 200) {
-      dispatch({
-        type: "setStories",
-        payload: response.data.data,
-      });
+      setStories(response.data.data);
     }
   };
   return {
     fetchStories,
-    stories: state.stories,
+    stories,
   };
 };
 

@@ -1,7 +1,8 @@
-import { IIgStory } from "../FacebookContext";
 import GetStoryInsights from "./GetStoryInsights";
+import { IIgStory } from "../hooks/useStories";
 
 interface IStoryComponent extends IIgStory {}
+
 const Story = ({
   media_url,
   timestamp,
