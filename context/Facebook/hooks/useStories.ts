@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FacebookContext from "../FacebookContext";
 import { getIgStoriesService } from "../../../services/facebookServices";
 
@@ -22,14 +22,20 @@ const useStories = () => {
   const [state] = useContext(FacebookContext);
   const [stories, setStories] = useState<IIgStory[]>([]);
   const fetchStories = async () => {
+    if (!state.instagramBussinessId) return;
     const response = await getIgStoriesService(
       state.instagramBussinessId,
       state.statusResponse.authResponse.accessToken
     );
     if (response.status === 200) {
       setStories(response.data.data);
+    } else {
+      console.log(response);
     }
   };
+  useEffect(() => {
+    fetchStories();
+  }, [state.instagramBussinessId]);
   return {
     fetchStories,
     stories,

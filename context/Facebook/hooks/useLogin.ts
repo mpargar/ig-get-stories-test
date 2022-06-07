@@ -2,9 +2,10 @@
  * This hook assumes that it will be executed on a component that is wrapped by FacebookProvider.tsx
  */
 import StatusResponse = facebook.StatusResponse;
-import { useContext, useMemo, useState } from "react";
+import { Dispatch, useContext, useMemo, useState } from "react";
 import FacebookContext, { IFacebookAccountData } from "../FacebookContext";
 import useUserData from "./useUserData";
+import { TFacebookReducerAction } from "../facebookReducer";
 const permissions = [
   "read_insights",
   "pages_manage_instant_articles",
@@ -46,7 +47,11 @@ const useLogin = () => {
     );
     setLoginLoading(false);
   };
-  const getAccountData = async (status: StatusResponse) => {
+  // TODO: Change the dispatchOverride patch functionality
+  const getAccountData = async (
+    status: StatusResponse,
+    dispatchOverride: Dispatch<TFacebookReducerAction> = dispatch
+  ) => {
     if (status.status === "connected") {
       const userData = await fetchUserData(status?.authResponse.accessToken);
       if (!userData) {
@@ -61,7 +66,7 @@ const useLogin = () => {
         // TODO: Send error message
         return;
       }
-      dispatch({
+      dispatchOverride({
         type: "setAccountData",
         payload: {
           accountsData: userData,

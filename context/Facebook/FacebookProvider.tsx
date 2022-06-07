@@ -25,7 +25,6 @@ const INITIAL_STATE: IFacebookContextState = {
 
 const FacebookProvider = ({ children }: IFacebookProvider) => {
   const [facebookState, dispatch] = useReducer(facebookReducer, INITIAL_STATE);
-  const { fetchUserData, fetchInstagramData } = useUserData();
   const [loaded, setLoaded] = useState(false);
   const { getAccountData } = useLogin();
   const handleOnLoad = () => {
@@ -44,7 +43,8 @@ const FacebookProvider = ({ children }: IFacebookProvider) => {
           type: "setStatusResponse",
           payload: response,
         });
-        await getAccountData(response);
+        // TODO: Change the dispatchOverride patch functionality
+        await getAccountData(response, dispatch);
       });
       setLoaded(true);
     };
