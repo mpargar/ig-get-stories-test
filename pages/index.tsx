@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const { isLoggedIn } = useLogin();
   useEffect(() => {
     if (isLoggedIn) {
-      Router.push("/facebook-stories");
+      Router.push("/instagram-stories");
     }
   }, [isLoggedIn]);
   return (

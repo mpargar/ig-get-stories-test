@@ -1,6 +1,7 @@
 import GetStoryInsights from "../GetStoryInsights";
 import { IIgStory } from "../../hooks/useStories";
-import { Card } from "antd";
+import { Card, Tooltip } from "antd";
+import { BarChartOutlined, LinkOutlined } from "@ant-design/icons";
 
 interface IStoryComponent extends IIgStory {}
 
@@ -13,29 +14,12 @@ const Story = ({
   media_type,
   caption,
 }: IStoryComponent) => {
-  // return (
-  //   <div>
-  //     <img
-  //       src={media_url}
-  //       alt={permalink}
-  //       style={{
-  //         maxWidth: "300px",
-  //       }}
-  //     />
-  //     <ul>
-  //       <li>id: {id}</li>
-  //       <li>ig_id: {ig_id}</li>
-  //       <li>timestamp: {timestamp}</li>
-  //       <li>
-  //         <a href={permalink} target="_blank" rel="noreferrer">
-  //           Perma link {permalink}
-  //         </a>
-  //       </li>
-  //     </ul>
-  //     <GetStoryInsights id={id} />
-  //     <hr />
-  //   </div>
-  // );
+  const handleShowInsights = () => {
+    console.log("Show insights");
+  };
+  const handleOpenLink = () => {
+    window?.open(permalink, "_blank")?.focus();
+  };
   return (
     <Card
       style={{ width: 300 }}
@@ -49,6 +33,14 @@ const Story = ({
           <img src={media_url} alt={permalink} />
         )
       }
+      actions={[
+        <Tooltip title="Insights" key={`insight-${ig_id}`}>
+          <BarChartOutlined onClick={handleShowInsights} />
+        </Tooltip>,
+        <Tooltip title="Permalink" key={`link-${ig_id}`}>
+          <LinkOutlined onClick={handleOpenLink} />
+        </Tooltip>,
+      ]}
     >
       <Card.Meta title={caption || "No caption"} description={`id: ${id}`} />
       <Card.Meta description={`ig_id: ${ig_id}`} />

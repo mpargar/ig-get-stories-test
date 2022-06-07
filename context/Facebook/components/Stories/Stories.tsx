@@ -5,7 +5,6 @@ import FacebookContext from "../../FacebookContext";
 import styles from "./Story.module.scss";
 
 const Stories = () => {
-  const [state] = useContext(FacebookContext);
   const { stories } = useStories();
   return (
     <div className={styles.storyContainer}>
